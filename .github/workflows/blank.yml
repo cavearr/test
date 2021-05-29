@@ -51,6 +51,6 @@ jobs:
           TIMESTAMP: "${{steps.build_date.outputs.date}}"
         uses: 'actions/upload-artifact@v2'
         with:
-          name: "AppImage | ${{env.ICESTUDIO_VERSION}} | ${{env.TIMESTAMP}}"
+          name: "${{env.TIMESTAMP}}_icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
           path: "dist/icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
           
