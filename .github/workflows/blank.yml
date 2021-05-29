@@ -46,8 +46,11 @@ jobs:
           echo "${{env.ICESTUDIO_VERSION}} ${{env.TIMESTAMP}}"
           echo "*******"
       - name: 'Upload artifact'
+        env:
+          ICESTUDIO_VERSION: "${{fromJson(steps.icestudio_json.outputs.packageJson).version}}"
+          TIMESTAMP: "${{steps.build_date.outputs.date}}"
         uses: 'actions/upload-artifact@v2'
         with:
-          name: "AppImage | ${env.ICESTUDIO_VERSION} | ${env.TIMESTAMP}"
-          path: "dist/icestudio-${env.ICESTUDIO_VERSION}-linux64.AppImage"
+          name: "AppImage | ${{env.ICESTUDIO_VERSION}} | ${{env.TIMESTAMP}}"
+          path: "dist/icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
           
