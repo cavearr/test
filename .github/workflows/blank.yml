@@ -15,7 +15,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Exporting variables
+      - id: set_var
         run: |
           content=`cat package.json`
           # the following lines are only required for multi line json
@@ -24,10 +24,9 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
-      - name: Importing variables
-        run: |
-          echo "${{fromJson(steps.set_var.outputs.packageJson)}}"
-          
+      - run: |
+          echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
+     
       - name: Test creating dist files
         run: |
           dd if=/dev/zero of=test.dat  bs=1024  count=1024
