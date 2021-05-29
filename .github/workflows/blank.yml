@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=packageJson::$content"
       - name: Importing variables
         run: |
-          echo "${{fromJson(steps.set_var.outputs.packageJson)}"
+          echo "${{fromJson(steps.set_var.outputs.packageJson)}}"
           
       - name: Test creating dist files
         run: |
