@@ -40,13 +40,14 @@ jobs:
           mkdir dist
           cp test.dat dist/icestudio-0.5.1w210224-linux64.AppImage
           cp test.dat dist/icestudio-0.5.1w210224-win64.exe
-          cp test.dat dist/icestudio-0.5.1w210224-linux64.AppImage
+          ls
+          ls dist/
           echo "*******"
           echo "${{env.ICESTUDIO_VERSION}} ${{env.TIMESTAMP}}"
           echo "*******"
       - name: 'Upload artifact'
         uses: 'actions/upload-artifact@v2'
         with:
-          name: "AppImage | ${{env.ICESTUDIO_VERSION}} | ${{env.TIMESTAMP}}"
-          path: "dist/icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
+          name: "AppImage | ${env.ICESTUDIO_VERSION} | ${env.TIMESTAMP}"
+          path: "dist/icestudio-${env.ICESTUDIO_VERSION}-linux64.AppImage"
           
