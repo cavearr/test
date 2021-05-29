@@ -15,7 +15,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - id: set_var
+      
+      # Loading vars from icestudio JSON
+      - id: icestudio_json
         run: |
           content=`cat package.json`
           # the following lines are only required for multi line json
@@ -24,12 +26,15 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
-      - run: |
-          echo 
-     
+      - id: build_date
+        run: |
+          content=`date +'%Y-%m-%d %H:%M:%S'`
+          echo "::set-output name=date::$content"
+          
       - name: Test creating dist files
         env:
-          ICESTUDIO_VERSION: "${{fromJson(steps.set_var.outputs.packageJson).version}}"
+          ICESTUDIO_VERSION: "${{fromJson(steps.icestudio_json.outputs.packageJson).version}}"
+          TIMESTAMP: "${{steps.build_date.outputs.date}}"
         run: |
           dd if=/dev/zero of=test.dat  bs=1024  count=1024
           mkdir dist
@@ -37,9 +42,11 @@ jobs:
           cp test.dat dist/icestudio-0.5.1w210224-win64.exe
           cp test.dat dist/icestudio-0.5.1w210224-linux64.AppImage
           echo "*******"
-          echo "${{env.ICESTUDIO_VERSION}}"
+          echo "${{env.ICESTUDIO_VERSION}} ${{env.TIMESTAMP}}"
           echo "*******"
-     # - name: 'Upload artifact'
-     #   uses: 'actions/upload-artifact@v2'
-     #   with:
-     #     path: test.dat
+      - name: 'Upload artifact'
+        uses: 'actions/upload-artifact@v2'
+        with:
+          name: "AppImage | ${{env.ICESTUDIO_VERSION}} | ${{env.TIMESTAMP}}"
+          path: "dist/icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
+          
