@@ -28,7 +28,7 @@ jobs:
           echo "::set-output name=packageJson::$content"
       - id: build_date
         run: |
-          content=`date +'%Y-%m-%d %H:%M:%S'`
+          content=`date +'%Y%m%d%H%M'`
           echo "::set-output name=date::$content"
           
       - name: Test creating dist files
@@ -51,6 +51,6 @@ jobs:
           TIMESTAMP: "${{steps.build_date.outputs.date}}"
         uses: 'actions/upload-artifact@v2'
         with:
-          name: "${{env.TIMESTAMP}}_icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
+          name: "${{env.TIMESTAMP}}_${{env.ICESTUDIO_VERSION}}_linux64_AppImage"
           path: "dist/icestudio-${{env.ICESTUDIO_VERSION}}-linux64.AppImage"
           
