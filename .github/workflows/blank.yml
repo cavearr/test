@@ -35,7 +35,7 @@ jobs:
           cp test.dat dist/icestudio-0.5.1w210224-win64.exe
           cp test.dat dist/icestudio-0.5.1w210224-linux64.AppImage
           echo "*******"
-          echo ${{env.version}}
+          echo "${{env.version}}"
           echo "*******"
      # - name: 'Upload artifact'
      #   uses: 'actions/upload-artifact@v2'
